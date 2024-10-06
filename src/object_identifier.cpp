@@ -18,7 +18,7 @@
 
 CylinderDetector::CylinderDetector() 
     : Node("cylinder_detector"),
-        cylinder_diameter_(0.8),
+        cylinder_diameter_(0.3), //meters
         tf_buffer_(this->get_clock()),
         tf_listener_(tf_buffer_)
 {
@@ -35,9 +35,10 @@ void CylinderDetector::scan_callback(const sensor_msgs::msg::LaserScan::SharedPt
 {
     if (detect_cylinder(msg)) {
         RCLCPP_INFO(this->get_logger(), "Cylinder detected!");
-    } else {
-        RCLCPP_INFO(this->get_logger(), "No cylinder detected.");
-    }
+    } 
+    //else {
+    //     RCLCPP_INFO(this->get_logger(), "No cylinder detected.");
+    // }
 }
 
 bool CylinderDetector::detect_cylinder(const sensor_msgs::msg::LaserScan::SharedPtr &msg)
@@ -59,18 +60,16 @@ bool CylinderDetector::detect_cylinder(const sensor_msgs::msg::LaserScan::Shared
 
         // Check if the cluster forms a circular object (potential cylinder)
         if (cluster.size() >= min_cluster_points) {
-
-            Circle circle = checkCircleFit(msg, i-cluster.size(), i);
-            geometry_msgs::msg::Point32 transformed_point;
-            transformed_point.x = circle.b;
-            transformed_point.y = circle.a; 
-            transformed_point.z = 0.0;
-            publish_marker(transformed_point, circle.r*2); 
+            // Circle circle = checkCircleFit(msg, i-cluster.size(), i);
+            // geometry_msgs::msg::Point32 transformed_point;
+            // transformed_point.x = circle.b;
+            // transformed_point.y = circle.a; 
+            // transformed_point.z = 0.0;
+            // publish_marker(transformed_point, circle.r*2); 
 
             if (is_circular_cluster(cluster, angle_increment)) {     
                 geometry_msgs::msg::Point32 transformed_point = transformScanToMapFrame(msg, i-cluster.size()/2);
                 publish_marker(transformed_point, cylinder_diameter_); 
-
                 return true;
             }
         }
@@ -99,11 +98,11 @@ bool CylinderDetector::is_circular_cluster(const std::vector<double> &cluster, d
     // c^2 = a^2 + b^2 - 2abCos C 
     //for cylinder could check middle range and see if its -radius from edges
 
-    double averageEdges = (start+end)/2;
-    if(middleRange < start && middleRange < end){ 
-        RCLCPP_INFO(this->get_logger(), "Its not a cylinder!");
-        return false;
-    }
+    // double averageEdges = (start+end)/2;
+    // if(middleRange < start && middleRange < end){ 
+    //     RCLCPP_INFO(this->get_logger(), "Its not a cylinder!");
+    //     return false;
+    // }
     
     RCLCPP_INFO(this->get_logger(), "Angle span radians: %f, Estimated Diameter: %f meters, Start range: %f, End Range: %f, Middle Range: %f, Cluster Size: %i", angle_span_rads, estimated_diameter, start, end, middleRange, clusterSize);
 
@@ -140,7 +139,7 @@ void CylinderDetector::publish_marker(geometry_msgs::msg::Point32 point, double 
     marker.color.g = 1.0; // Green
     marker.color.b = 0.0; // Blue
 
-    // RCLCPP_INFO(this->get_logger(), "Publishing to X: %f Y: %f", point.x, point.y);
+    RCLCPP_INFO(this->get_logger(), "Publishing to X: %f Y: %f", point.x, point.y);
 
     marker_publisher_->publish(marker);
 }
