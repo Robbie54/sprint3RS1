@@ -1,0 +1,240 @@
+\hypertarget{classCylinderDetector}{}\doxysection{Cylinder\+Detector Class Reference}
+\label{classCylinderDetector}\index{CylinderDetector@{CylinderDetector}}
+
+
+Inheritance diagram for Cylinder\+Detector\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{classCylinderDetector__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Cylinder\+Detector\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=179pt]{classCylinderDetector__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classCylinderDetector_ab9c25e0bf46af5299a014ff6e461e972}{Cylinder\+Detector}} ()
+\begin{DoxyCompactList}\small\item\em Constructor for the \mbox{\hyperlink{classCylinderDetector}{Cylinder\+Detector}} node. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classCylinderDetector_ad3bafe7f20435988d0631121fd2b92cd}{scan\+\_\+callback}} (const sensor\+\_\+msgs\+::msg\+::\+Laser\+Scan\+::\+Shared\+Ptr msg)
+\begin{DoxyCompactList}\small\item\em Subscribe to the laser scan topic. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classCylinderDetector_ab768382fd8a61182489c14c4fd3103a4}{detect\+\_\+cylinder}} (const sensor\+\_\+msgs\+::msg\+::\+Laser\+Scan\+::\+Shared\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em Detects a cylindrical object in the laser scan data. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classCylinderDetector_ab46f7c8a745de535faa53aa121e1e33a}{is\+\_\+close}} (double r1, double r2, double threshold=0.\+2)
+\begin{DoxyCompactList}\small\item\em Checks if two laser scan ranges are close enough to be considered part of the same cluster. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classCylinderDetector_a738fec2b43aaa4bace21718cb6d934ed}{is\+\_\+circular\+\_\+cluster}} (const std\+::vector$<$ double $>$ \&cluster, double angle\+\_\+increment)
+\begin{DoxyCompactList}\small\item\em Checks if a given cluster of laser scan points forms a circular shape. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classCylinderDetector_ab491f2faff46cc1b196e63d56d70cdd4}{publish\+\_\+marker}} (geometry\+\_\+msgs\+::msg\+::\+Point32 point, double diameter)
+\begin{DoxyCompactList}\small\item\em Publishes a visualization marker to represent the detected cylinder. \end{DoxyCompactList}\item 
+geometry\+\_\+msgs\+::msg\+::\+Point32 \mbox{\hyperlink{classCylinderDetector_ab6c3f3afeca51a6a5ec53fe7ead2bb57}{transform\+Scan\+To\+Map\+Frame}} (const sensor\+\_\+msgs\+::msg\+::\+Laser\+Scan\+::\+Shared\+Ptr \&msg, int i)
+\begin{DoxyCompactList}\small\item\em Transforms a point from the laser scan frame to the map frame. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structCircle}{Circle}} \mbox{\hyperlink{classCylinderDetector_a5c5c550827494b7dc93daf9dd9d43c56}{check\+Circle\+Fit}} (const sensor\+\_\+msgs\+::msg\+::\+Laser\+Scan\+::\+Shared\+Ptr \&msg, int start, int end)
+\begin{DoxyCompactList}\small\item\em Fits a circle to a segment of laser scan data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classCylinderDetector_a2415b18dfbbf27c6ac7aa87c8f833930}\label{classCylinderDetector_a2415b18dfbbf27c6ac7aa87c8f833930}} 
+rclcpp\+::\+Subscription$<$ sensor\+\_\+msgs\+::msg\+::\+Laser\+Scan $>$\+::Shared\+Ptr {\bfseries subscription\+\_\+}
+\item 
+\mbox{\Hypertarget{classCylinderDetector_a7f305a494d764c0abbc72a8bb1eae580}\label{classCylinderDetector_a7f305a494d764c0abbc72a8bb1eae580}} 
+rclcpp\+::\+Publisher$<$ visualization\+\_\+msgs\+::msg\+::\+Marker $>$\+::Shared\+Ptr {\bfseries marker\+\_\+publisher\+\_\+}
+\item 
+\mbox{\Hypertarget{classCylinderDetector_acd820b2546ba3cf38df47b051e071862}\label{classCylinderDetector_acd820b2546ba3cf38df47b051e071862}} 
+double {\bfseries cylinder\+\_\+diameter\+\_\+}
+\item 
+\mbox{\Hypertarget{classCylinderDetector_a1ca2c7ff3a43ead7259588c5a6c7bcd6}\label{classCylinderDetector_a1ca2c7ff3a43ead7259588c5a6c7bcd6}} 
+tf2\+\_\+ros\+::\+Buffer {\bfseries tf\+\_\+buffer\+\_\+}
+\item 
+\mbox{\Hypertarget{classCylinderDetector_adfd458e868243157ffcc4408d3b00956}\label{classCylinderDetector_adfd458e868243157ffcc4408d3b00956}} 
+tf2\+\_\+ros\+::\+Transform\+Listener {\bfseries tf\+\_\+listener\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classCylinderDetector_ab9c25e0bf46af5299a014ff6e461e972}\label{classCylinderDetector_ab9c25e0bf46af5299a014ff6e461e972}} 
+\index{CylinderDetector@{CylinderDetector}!CylinderDetector@{CylinderDetector}}
+\index{CylinderDetector@{CylinderDetector}!CylinderDetector@{CylinderDetector}}
+\doxysubsubsection{\texorpdfstring{CylinderDetector()}{CylinderDetector()}}
+{\footnotesize\ttfamily Cylinder\+Detector\+::\+Cylinder\+Detector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructor for the \mbox{\hyperlink{classCylinderDetector}{Cylinder\+Detector}} node. 
+
+Initializes the \mbox{\hyperlink{classCylinderDetector}{Cylinder\+Detector}} node by subscribing to the laser scan topic and setting up a publisher for visualization markers. The default cylinder diameter is set to 0.\+3 meters. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classCylinderDetector_a5c5c550827494b7dc93daf9dd9d43c56}\label{classCylinderDetector_a5c5c550827494b7dc93daf9dd9d43c56}} 
+\index{CylinderDetector@{CylinderDetector}!checkCircleFit@{checkCircleFit}}
+\index{checkCircleFit@{checkCircleFit}!CylinderDetector@{CylinderDetector}}
+\doxysubsubsection{\texorpdfstring{checkCircleFit()}{checkCircleFit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structCircle}{Circle}} Cylinder\+Detector\+::check\+Circle\+Fit (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::msg\+::\+Laser\+Scan\+::\+Shared\+Ptr \&}]{msg,  }\item[{int}]{start,  }\item[{int}]{end }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Fits a circle to a segment of laser scan data. 
+
+This function attempts to fit a circle to a set of points derived from laser scan data between the given start and end indices. It uses a least-\/squares method to compute the circle\textquotesingle{}s center and radius. The points are transformed into the map frame before fitting.
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & Shared pointer to the received Laser\+Scan message. \\
+\hline
+{\em start} & The index of the first point in the laser scan data to use. \\
+\hline
+{\em end} & The index of the last point in the laser scan data to use. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structCircle}{Circle}} The fitted circle containing the center (a, b), radius (r), and the number of iterations (j) performed during the fitting. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCylinderDetector_ab768382fd8a61182489c14c4fd3103a4}\label{classCylinderDetector_ab768382fd8a61182489c14c4fd3103a4}} 
+\index{CylinderDetector@{CylinderDetector}!detect\_cylinder@{detect\_cylinder}}
+\index{detect\_cylinder@{detect\_cylinder}!CylinderDetector@{CylinderDetector}}
+\doxysubsubsection{\texorpdfstring{detect\_cylinder()}{detect\_cylinder()}}
+{\footnotesize\ttfamily bool Cylinder\+Detector\+::detect\+\_\+cylinder (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::msg\+::\+Laser\+Scan\+::\+Shared\+Ptr \&}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Detects a cylindrical object in the laser scan data. 
+
+This function processes the laser scan data to find clusters of points that may represent a cylindrical object. It groups points that are close together and checks if they form a circular cluster.
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & Shared pointer to the received Laser\+Scan message. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true If a cylinder is detected. 
+
+false If no cylinder is detected. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCylinderDetector_a738fec2b43aaa4bace21718cb6d934ed}\label{classCylinderDetector_a738fec2b43aaa4bace21718cb6d934ed}} 
+\index{CylinderDetector@{CylinderDetector}!is\_circular\_cluster@{is\_circular\_cluster}}
+\index{is\_circular\_cluster@{is\_circular\_cluster}!CylinderDetector@{CylinderDetector}}
+\doxysubsubsection{\texorpdfstring{is\_circular\_cluster()}{is\_circular\_cluster()}}
+{\footnotesize\ttfamily bool Cylinder\+Detector\+::is\+\_\+circular\+\_\+cluster (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{cluster,  }\item[{double}]{angle\+\_\+increment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Checks if a given cluster of laser scan points forms a circular shape. 
+
+This function estimates the diameter of a cluster of points by using the law of cosines and compares it to the expected cylinder diameter. It also checks if the midpoint of the cluster is closer than the edge points, indicating a cylindrical shape.
+
+
+\begin{DoxyParams}{Parameters}
+{\em cluster} & A vector of range values representing the cluster. \\
+\hline
+{\em angle\+\_\+increment} & The angular increment between successive laser scan points. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true If the cluster forms a circular shape. 
+
+false If the cluster does not form a circular shape. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCylinderDetector_ab46f7c8a745de535faa53aa121e1e33a}\label{classCylinderDetector_ab46f7c8a745de535faa53aa121e1e33a}} 
+\index{CylinderDetector@{CylinderDetector}!is\_close@{is\_close}}
+\index{is\_close@{is\_close}!CylinderDetector@{CylinderDetector}}
+\doxysubsubsection{\texorpdfstring{is\_close()}{is\_close()}}
+{\footnotesize\ttfamily bool Cylinder\+Detector\+::is\+\_\+close (\begin{DoxyParamCaption}\item[{double}]{r1,  }\item[{double}]{r2,  }\item[{double}]{threshold = {\ttfamily 0.2} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Checks if two laser scan ranges are close enough to be considered part of the same cluster. 
+
+This function compares two range values from the laser scan to determine if they are within a given threshold of each other.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r1} & The first range value. \\
+\hline
+{\em r2} & The second range value. \\
+\hline
+{\em threshold} & The maximum allowed difference between the two range values. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true If the two ranges are close enough. 
+
+false If the two ranges are too far apart. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCylinderDetector_ab491f2faff46cc1b196e63d56d70cdd4}\label{classCylinderDetector_ab491f2faff46cc1b196e63d56d70cdd4}} 
+\index{CylinderDetector@{CylinderDetector}!publish\_marker@{publish\_marker}}
+\index{publish\_marker@{publish\_marker}!CylinderDetector@{CylinderDetector}}
+\doxysubsubsection{\texorpdfstring{publish\_marker()}{publish\_marker()}}
+{\footnotesize\ttfamily void Cylinder\+Detector\+::publish\+\_\+marker (\begin{DoxyParamCaption}\item[{geometry\+\_\+msgs\+::msg\+::\+Point32}]{point,  }\item[{double}]{diameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Publishes a visualization marker to represent the detected cylinder. 
+
+This function creates and configures a cylinder marker for RViz visualization and publishes it to the /cylinder\+\_\+marker topic. The marker\textquotesingle{}s position is set based on the detected point and its scale is adjusted to match the cylinder\textquotesingle{}s diameter.
+
+
+\begin{DoxyParams}{Parameters}
+{\em point} & The 2D coordinates of the cylinder in the map frame. \\
+\hline
+{\em diameter} & The diameter of the detected cylinder. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classCylinderDetector_ad3bafe7f20435988d0631121fd2b92cd}\label{classCylinderDetector_ad3bafe7f20435988d0631121fd2b92cd}} 
+\index{CylinderDetector@{CylinderDetector}!scan\_callback@{scan\_callback}}
+\index{scan\_callback@{scan\_callback}!CylinderDetector@{CylinderDetector}}
+\doxysubsubsection{\texorpdfstring{scan\_callback()}{scan\_callback()}}
+{\footnotesize\ttfamily void Cylinder\+Detector\+::scan\+\_\+callback (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::msg\+::\+Laser\+Scan\+::\+Shared\+Ptr}]{msg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Subscribe to the laser scan topic. 
+
+The callback function {\ttfamily scan\+\_\+callback} is called whenever a new Laser\+Scan message is received.
+
+
+\begin{DoxyParams}{Parameters}
+{\em /scan} & The topic to subscribe to. \\
+\hline
+{\em 10} & The queue size for the subscription. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classCylinderDetector_ab6c3f3afeca51a6a5ec53fe7ead2bb57}\label{classCylinderDetector_ab6c3f3afeca51a6a5ec53fe7ead2bb57}} 
+\index{CylinderDetector@{CylinderDetector}!transformScanToMapFrame@{transformScanToMapFrame}}
+\index{transformScanToMapFrame@{transformScanToMapFrame}!CylinderDetector@{CylinderDetector}}
+\doxysubsubsection{\texorpdfstring{transformScanToMapFrame()}{transformScanToMapFrame()}}
+{\footnotesize\ttfamily geometry\+\_\+msgs\+::msg\+::\+Point32 Cylinder\+Detector\+::transform\+Scan\+To\+Map\+Frame (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::msg\+::\+Laser\+Scan\+::\+Shared\+Ptr \&}]{msg,  }\item[{int}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Transforms a point from the laser scan frame to the map frame. 
+
+This function takes a point from the laser scan data and transforms it into the map frame using the tf2 transform system. It looks up the transform between the laser frame and the map frame, then applies the transformation to the point.
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & Shared pointer to the received Laser\+Scan message. \\
+\hline
+{\em i} & The index of the point in the laser scan data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+geometry\+\_\+msgs\+::msg\+::\+Point32 The transformed point in the map frame. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/object\+\_\+identifier\+\_\+node/object\+\_\+identifier.\+hpp\item 
+src/object\+\_\+identifier.\+cpp\end{DoxyCompactItemize}

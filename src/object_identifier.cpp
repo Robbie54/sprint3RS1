@@ -13,9 +13,6 @@
 #include <tf2_ros/buffer.h>
 
 
-
-
-
 CylinderDetector::CylinderDetector() 
     : Node("cylinder_detector"),
         cylinder_diameter_(0.3), //meters
@@ -30,6 +27,7 @@ CylinderDetector::CylinderDetector()
     marker_publisher_ = this->create_publisher<visualization_msgs::msg::Marker>("/cylinder_marker", 10);
 }
 
+    
 
 void CylinderDetector::scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr msg)
 {
@@ -40,6 +38,7 @@ void CylinderDetector::scan_callback(const sensor_msgs::msg::LaserScan::SharedPt
     //     RCLCPP_INFO(this->get_logger(), "No cylinder detected.");
     // }
 }
+
 
 bool CylinderDetector::detect_cylinder(const sensor_msgs::msg::LaserScan::SharedPtr &msg)
 {
@@ -69,6 +68,7 @@ bool CylinderDetector::detect_cylinder(const sensor_msgs::msg::LaserScan::Shared
 
             if (is_circular_cluster(cluster, angle_increment)) {     
                 geometry_msgs::msg::Point32 transformed_point = transformScanToMapFrame(msg, i-cluster.size()/2);
+                
                 publish_marker(transformed_point, cylinder_diameter_); 
                 return true;
             }
@@ -77,10 +77,12 @@ bool CylinderDetector::detect_cylinder(const sensor_msgs::msg::LaserScan::Shared
     return false;
 }
 
+
 bool CylinderDetector::is_close(double r1, double r2, double threshold)
 {
     return std::fabs(r1 - r2) < threshold;  // Threshold to group points into a cluster
 }
+
 
 bool CylinderDetector::is_circular_cluster(const std::vector<double> &cluster, double angle_increment)
 {
@@ -108,6 +110,7 @@ bool CylinderDetector::is_circular_cluster(const std::vector<double> &cluster, d
 
     return std::fabs(estimated_diameter - cylinder_diameter_) < 0.05; 
 }
+
 
 
 
@@ -144,6 +147,7 @@ void CylinderDetector::publish_marker(geometry_msgs::msg::Point32 point, double 
     marker_publisher_->publish(marker);
 }
 
+
 geometry_msgs::msg::Point32 CylinderDetector::transformScanToMapFrame(const sensor_msgs::msg::LaserScan::SharedPtr &msg, int i){
     geometry_msgs::msg::TransformStamped transform;
     try {
@@ -155,8 +159,8 @@ geometry_msgs::msg::Point32 CylinderDetector::transformScanToMapFrame(const sens
 
     // Create a point for the laser range in the laser scan frame
     geometry_msgs::msg::Point32 point;
-    point.x = (msg->ranges[i]+cylinder_diameter_/2) * std::cos(msg->angle_min + msg->angle_increment * i);
-    point.y = (msg->ranges[i]+cylinder_diameter_/2) * std::sin(msg->angle_min + msg->angle_increment * i);
+    point.x = (msg->ranges[i]+cylinder_diameter_/2) * std::cos(msg->angle_min + msg->angle_increment * i); 
+    point.y = (msg->ranges[i]+cylinder_diameter_/2) * std::sin(msg->angle_min + msg->angle_increment * i); //+cylinder_diameter_/2 removed from msg->range[i] in x and y // makes for inactuare conversion but works for the publish marker for circle center case
     point.z = 0.0;
 
     // Transform the point to the map frame
@@ -166,6 +170,8 @@ geometry_msgs::msg::Point32 CylinderDetector::transformScanToMapFrame(const sens
     return transformed_point;
 }
 
+
+//theres to much noise/not enough points and not enough arc for accurate guesss 
 Circle CylinderDetector::checkCircleFit(const sensor_msgs::msg::LaserScan::SharedPtr &msg, int start, int end) {
 
     Circle circle;
@@ -199,6 +205,7 @@ Circle CylinderDetector::checkCircleFit(const sensor_msgs::msg::LaserScan::Share
 
     for (int i = start; i <= end; i++) {
         point = transformScanToMapFrame(msg,i);
+        // publish_marker(point, 0.1);
         data.X.push_back(point.x);
         data.Y.push_back(point.y);
     }
@@ -271,9 +278,18 @@ Circle CylinderDetector::checkCircleFit(const sensor_msgs::msg::LaserScan::Share
     circle.r = std::sqrt(Xcenter * Xcenter + Ycenter * Ycenter + Mz);
     circle.s = 0; // You can compute the root mean square error here if needed
     circle.j = IterMAX; // Store the number of iterations
-    RCLCPP_INFO(this->get_logger(), 
-            "Circle found: Center (a: %f, b: %f), Radius: %f, Iterations: %d", 
-            circle.a, circle.b, circle.r, circle.j);
+    if (!std::isnan(circle.a) && !std::isnan(circle.b) && !std::isnan(circle.r)) {
+        RCLCPP_INFO(this->get_logger(), 
+                "Circle found: Center (a: %f, b: %f), Radius: %f, Iterations: %d", 
+                circle.a, circle.b, circle.r, circle.j);
+        // for(int i = 0; i< data.n; i++){
+        //     geometry_msgs::msg::Point32 point;
+        //     point.x = data.X[i];
+        //     point.y = data.Y[i];
+
+        //     publish_marker(point, 0.1);
+        // }
+    }
 
     return circle;
 }
